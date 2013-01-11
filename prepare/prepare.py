@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 
 import struct
+import random
 
 def main():
 	fp = open("falcon.bmp", "rb")
@@ -22,7 +23,7 @@ def main():
 		if x == width:
 			x = 0
 			y += 1
-			fp.read(2)
+			#fp.read(1)
 		if y==height:
 			break
 		x += 1
@@ -32,12 +33,19 @@ def main():
 			color = struct.unpack('B', value)[0]
 			if (color < 150):
 				vertices += 1
+				vx = float( x - (width/2) )
+				vy = float( y - (height/2) )
+				vz = 5.0 - (random.random() * 10.0)
+				print vx, ",", vy, ",", vz, ",",
+				if (vertices%10==0):
+					print
 			#print color
 		except:
 			print "brake @", fp.tell()
 			break
 		i += 1
 
+	print
 	print "total:", i, "bytes of data"
 	print "finished @", fp.tell()
 	print "vertices:", vertices
